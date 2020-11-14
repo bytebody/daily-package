@@ -1,2 +1,3 @@
-# daily-package
-Daily Package 每日一包
+# Daily Package
+
+每天学会使用一个 Golang 库
