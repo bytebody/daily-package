@@ -1,12 +1,13 @@
 package sort
 
+import "fmt"
+
 /**
 @IDE        :   GoLand
 @Author     :   bytebody
 @Date       :   2020/11/17 8:01 PM
 @Description:   针对 golang 内置的sort模块进行实践 文档地址:  https://golang.org/pkg/sort/
 */
-
 
 // A type, typically a collection, that satisfies sort.Interface can be
 // sorted by the routines in this package. The methods require that the
@@ -16,7 +17,7 @@ package sort
 	1. Len 排序集合长度
 	2. Less 排序对象大小比较
     3. Swap 排序集合元素交换
- */
+*/
 type Interface interface {
 	// Len is the number of elements in the collection.
 	Len() int
@@ -38,7 +39,7 @@ func insertionSort(data Interface, a, b int) {
 	    3. 2 5 8 3 9
 	    4. 2 3 5 8 9
 	    5. 2 3 5 8 9
-	 */
+	*/
 	for i := a + 1; i < b; i++ {
 		for j := i; j > a && data.Less(j, j-1); j-- {
 			data.Swap(j, j-1)
@@ -72,11 +73,13 @@ func heapSort(data Interface, a, b int) {
 	hi := b - a
 
 	// Build heap with greatest element at top.
+	// 构建大根堆
 	for i := (hi - 1) / 2; i >= 0; i-- {
 		siftDown(data, i, hi, first)
 	}
 
 	// Pop elements, largest first, into end of data.
+	// 将第一个元素(大根队最大自)与最后一个交换(未排序的最后一个)
 	for i := hi - 1; i >= 0; i-- {
 		data.Swap(first, first+i)
 		siftDown(data, lo, i, first)
@@ -197,6 +200,7 @@ func doPivot(data Interface, lo, hi int) (midlo, midhi int) {
 }
 
 func quickSort(data Interface, a, b, maxDepth int) {
+	fmt.Printf("array:%+v\na:%d,b:%d,deepth:%d\n\n", data, a, b, maxDepth)
 	for b-a > 12 { // Use ShellSort for slices <= 12 elements
 		if maxDepth == 0 {
 			heapSort(data, a, b)
@@ -372,6 +376,7 @@ func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 func Stable(data Interface) {
 	stable(data, data.Len())
 }
+
 // 归并排序
 func stable(data Interface, n int) {
 	blockSize := 20 // must be > 0
